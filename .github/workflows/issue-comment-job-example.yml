@@ -19,7 +19,7 @@ jobs:
           NUMBER: ${{ github.event.issue.number }}
 
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
         with:
           submodules: true
           fetch-depth: 0
@@ -32,7 +32,6 @@ jobs:
       - name: Run changed-files with defaults
         id: changed-files
         uses: ./
-
       - name: Show output
         run: |
           echo '${{ toJSON(steps.changed-files.outputs) }}'
@@ -41,8 +40,7 @@ jobs:
 
       - name: Run changed-files for old new filenames test rename
         id: changed-files-all-old-new-renamed-files
-        uses: ./
-        with:
+        uses: ./        with:
           base_sha: d1c0ee4
           sha: 4d04215
           fetch_depth: 60000
@@ -104,7 +102,7 @@ jobs:
           NUMBER: ${{ github.event.issue.number }}
 
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
         with:
           submodules: true
           fetch-depth: 0
@@ -117,7 +115,6 @@ jobs:
       - name: Run changed-files with defaults
         id: changed-files
         uses: ./
-
       - name: Show output
         run: |
           echo '${{ toJSON(steps.changed-files.outputs) }}'
@@ -126,8 +123,7 @@ jobs:
 
       - name: Run changed-files for old new filenames test rename
         id: changed-files-all-old-new-renamed-files
-        uses: ./
-        with:
+        uses: ./        with:
           base_sha: d1c0ee4
           sha: 4d04215
           fetch_depth: 60000

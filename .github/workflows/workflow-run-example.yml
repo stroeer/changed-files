@@ -13,12 +13,11 @@ jobs:
     if: ${{ github.event.workflow_run.conclusion == 'success' }}
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
 
       - name: Get changed files
         id: changed-files
         uses: ./
-
       - name: Echo list of changed files on success
         run: |
           echo "Changed files on success:"
@@ -29,12 +28,11 @@ jobs:
     if: ${{ github.event.workflow_run.conclusion == 'failure' }}
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
 
       - name: Get changed files
         id: changed-files
         uses: ./
-
       - name: Echo list of changed files on failure
         run: |
           echo "Changed files on failure:"

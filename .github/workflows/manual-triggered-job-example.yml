@@ -18,7 +18,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
         with:
           submodules: true
           fetch-depth: 0
@@ -26,15 +26,13 @@ jobs:
       - name: Run changed-files with defaults
         id: changed-files
         uses: ./
-
       - name: Show output
         run: |
           echo '${{ toJSON(steps.changed-files.outputs) }}'
 
       - name: Run changed-files with glob filtering
         id: changed-files-glob
-        uses: ./
-        with:
+        uses: ./        with:
           files: |
             test/*.txt
 
@@ -44,8 +42,7 @@ jobs:
 
       - name: Run changed-files with glob filtering and all_old_new_renamed_files
         id: changed-files-glob-all-old-new-renamed-files
-        uses: ./
-        with:
+        uses: ./        with:
           include_all_old_new_renamed_files: true
           files: |
             test/*.txt
