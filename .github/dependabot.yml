@@ -3,22 +3,36 @@ updates:
 - package-ecosystem: npm
   directory: "/"
   schedule:
-    interval: daily
+    interval: weekly
+  cooldown:
+    default-days: 8
   open-pull-requests-limit: 10
   versioning-strategy: widen
+  groups:
+    npm-dependencies:
+      patterns:
+        - "*"
   labels:
     - "merge when passing"
 - package-ecosystem: github-actions
   directory: "/"
   schedule:
-    interval: daily
+    interval: weekly
+  cooldown:
+    default-days: 8
   open-pull-requests-limit: 10
+  groups:
+    github-actions:
+      patterns:
+        - "*"
   labels:
     - "merge when passing"
 - package-ecosystem: gitsubmodule
   directory: /
   schedule:
-    interval: daily
+    interval: weekly
+  cooldown:
+    default-days: 8
   open-pull-requests-limit: 10
   labels:
     - "merge when passing"

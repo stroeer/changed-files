@@ -38,14 +38,14 @@ jobs:
       contents: read
       pull-requests: write
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
         with:
           persist-credentials: false
           fetch-depth: 0
           repository: ${{ github.event.pull_request.head.repo.full_name }}
 
       - name: Use Node.js 20.x
-        uses: actions/setup-node@v4.2.0
+        uses: actions/setup-node@1a4442cacd436585916779262731d5b162bc6ec7 # v4.2.0
         with:
           cache: 'yarn'
           node-version: '20.x'
@@ -60,7 +60,7 @@ jobs:
           yarn install
 
       - name: Run eslint on changed files
-        uses: tj-actions/eslint-changed-files@v25
+        uses: tj-actions/eslint-changed-files@536c35c8184b8bbd361d3703aa63439e0895c340 # v25
         if: github.event_name == 'pull_request'
         with:
           token: ${{ secrets.PAT_TOKEN }}
@@ -74,7 +74,7 @@ jobs:
           GITHUB_EVENT_PULL_REQUEST_HEAD_REPO_FORK: ${{ github.event.pull_request.head.repo.fork }}
 
       - name: Verify Changed files
-        uses: tj-actions/verify-changed-files@v20
+        uses: tj-actions/verify-changed-files@a1c6acee9df209257a246f2cc6ae8cb6581c1edf # v20
         if: github.actor != 'dependabot[bot]'
         id: changed_files
         with:
@@ -93,19 +93,18 @@ jobs:
       - name: Push changes
         if: steps.changed_files.outputs.files_changed == 'true' && github.event_name == 'pull_request'
         continue-on-error: true
-        uses: ad-m/github-push-action@master
-        with:
+        uses: ad-m/github-push-action@master        with:
           github_token: ${{ secrets.PAT_TOKEN }}
           branch: ${{ github.head_ref }}
 
       - name: Upload build assets
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
           name: build-assets
           path: dist
 
       - name: Run codacy-coverage-reporter
-        uses: codacy/codacy-coverage-reporter-action@v1
+        uses: codacy/codacy-coverage-reporter-action@89d6c85cfafaec52c72b6c5e8b2878d33104c699 # v1
         continue-on-error: true
         with:
           project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}
@@ -120,7 +119,7 @@ jobs:
       contents: read
     steps:
       - name: Checkout into dir1
-        uses: actions/checkout@v4
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
         with:
           repository: ${{ github.event.pull_request.head.repo.full_name }}
           submodules: true
@@ -128,15 +127,14 @@ jobs:
           path: dir1
 
       - name: Download build assets
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
         with:
           name: build-assets
           path: dir1/dist
 
       - name: Run changed-files with defaults on the dir1
         id: changed-files-dir1
-        uses: ./dir1
-        with:
+        uses: ./dir1        with:
           path: dir1
 
       - name: Show output
@@ -154,13 +152,13 @@ jobs:
           bash
 
       - name: Download build assets
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
         with:
           name: build-assets
           path: dir2/dist
 
       - name: Checkout into dir2
-        uses: actions/checkout@v4
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
         with:
           repository: ${{ github.event.pull_request.head.repo.full_name }}
           submodules: true
@@ -169,8 +167,7 @@ jobs:
 
       - name: Run changed-files with defaults on the dir2
         id: changed-files-dir2
-        uses: ./dir2
-        with:
+        uses: ./dir2        with:
           path: dir2
 
       - name: Show output
@@ -196,20 +193,19 @@ jobs:
       contents: read
     steps:
       - name: Checkout branch
-        uses: actions/checkout@v4
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
         with:
           repository: ${{ github.event.pull_request.head.repo.full_name }}
           fetch-depth: 0
 
       - name: Download build assets
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
         with:
           name: build-assets
 
       - name: Run changed-files since 2022-08-19
         id: changed-files-since
-        uses: ./
-        with:
+        uses: ./        with:
           since: "2022-08-19"
 
       - name: Check output
@@ -228,8 +224,7 @@ jobs:
 
       - name: Run changed-files until 2022-08-20
         id: changed-files-until
-        uses: ./
-        with:
+        uses: ./        with:
           until: "2022-08-20"
 
       - name: Check output
@@ -256,21 +251,20 @@ jobs:
 
     steps:
       - name: Checkout branch
-        uses: actions/checkout@v4
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
         with:
           repository: ${{ github.event.pull_request.head.repo.full_name }}
           fetch-depth: 0
 
       - name: Download build assets
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
         with:
           name: build-assets
 
       - name: Run changed-files with similar base and commit sha
         id: changed-files
         continue-on-error: true
-        uses: ./
-        with:
+        uses: ./        with:
           base_sha: d1c0ee4
           sha: d1c0ee4
 
@@ -300,20 +294,19 @@ jobs:
 
     steps:
       - name: Checkout branch
-        uses: actions/checkout@v4
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
         with:
           repository: ${{ github.event.pull_request.head.repo.full_name }}
           fetch-depth: 0
 
       - name: Download build assets
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
         with:
           name: build-assets
 
       - name: Run changed-files with main as the base_sha
         id: changed-files
-        uses: ./
-        with:
+        uses: ./        with:
           base_sha: main
 
       - name: Show output
@@ -339,20 +332,19 @@ jobs:
 
     steps:
       - name: Checkout branch
-        uses: actions/checkout@v4
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
         with:
           repository: ${{ github.event.pull_request.head.repo.full_name }}
           fetch-depth: ${{ matrix.fetch-depth }}
 
       - name: Download build assets
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
         with:
           name: build-assets
 
       - name: Run changed-files
         id: changed-files
-        uses: ./
-        continue-on-error: ${{ matrix.input-skip_initial_fetch == true && matrix.fetch-depth < 10 }}
+        uses: ./        continue-on-error: ${{ matrix.input-skip_initial_fetch == true && matrix.fetch-depth < 10 }}
         with:
           fetch_depth: ${{ matrix.input-fetch_depth }}
           skip_initial_fetch: ${{ github.event_name == 'push' }}
@@ -373,19 +365,18 @@ jobs:
 
     steps:
       - name: Checkout branch
-        uses: actions/checkout@v4
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
         with:
           ref: ${{ github.event.pull_request.head.sha }}
 
       - name: Download build assets
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
         with:
           name: build-assets
 
       - name: Run changed-files
         id: changed-files
         uses: ./
-
       - name: Show output
         run: |
           echo '${{ toJSON(steps.changed-files.outputs) }}'
@@ -407,21 +398,20 @@ jobs:
 
     steps:
       - name: Checkout branch
-        uses: actions/checkout@v4
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
         with:
           fetch-depth: ${{ matrix.fetch-depth }}
           persist-credentials: false
           repository: ${{ github.event.pull_request.head.repo.full_name }}
 
       - name: Download build assets
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
         with:
           name: build-assets
 
       - name: Run changed-files
         id: changed-files
         uses: ./
-
       - name: Show output
         run: |
           echo '${{ toJSON(steps.changed-files.outputs) }}'
@@ -437,17 +427,16 @@ jobs:
       contents: read
     steps:
       - name: Checkout branch
-        uses: actions/checkout@v4
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
 
       - name: Download build assets
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
         with:
           name: build-assets
 
       - name: Run changed-files with non existent base sha
         id: changed-files
-        uses: ./
-        continue-on-error: true
+        uses: ./        continue-on-error: true
         with:
           base_sha: "4554456"
 
@@ -465,8 +454,7 @@ jobs:
 
       - name: Run changed-files-specific with non existent base sha
         id: changed-files-specific
-        uses: ./
-        continue-on-error: true
+        uses: ./        continue-on-error: true
         with:
           files: action.yml
           base_sha: "4554456"
@@ -492,17 +480,16 @@ jobs:
       contents: read
     steps:
       - name: Checkout branch
-        uses: actions/checkout@v4
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
 
       - name: Download build assets
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
         with:
           name: build-assets
 
       - name: Run changed-files with non existent sha
         id: changed-files
-        uses: ./
-        continue-on-error: true
+        uses: ./        continue-on-error: true
         with:
           sha: "4774456"
 
@@ -520,8 +507,7 @@ jobs:
 
       - name: Run changed-files-specific with non existent sha
         id: changed-files-specific
-        uses: ./
-        continue-on-error: true
+        uses: ./        continue-on-error: true
         with:
           files: action.yml
           sha: "4774456"
@@ -547,7 +533,7 @@ jobs:
       pull-requests: read
     steps:
       - name: Checkout into dir1
-        uses: actions/checkout@v4
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
         with:
           repository: ${{ github.event.pull_request.head.repo.full_name }}
           submodules: true
@@ -555,7 +541,7 @@ jobs:
           path: dir1
 
       - name: Download build assets
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
         with:
           name: build-assets
           path: dir1/dist
@@ -563,7 +549,6 @@ jobs:
       - name: Run changed-files with REST API
         id: changed-files
         uses: ./dir1
-
       - name: Show output
         run: |
           echo '${{ toJSON(steps.changed-files.outputs) }}'
@@ -579,22 +564,21 @@ jobs:
       contents: read
     steps:
       - name: Checkout branch
-        uses: actions/checkout@v4
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
         with:
           repository: ${{ github.event.pull_request.head.repo.full_name }}
           submodules: true
           fetch-depth: 0
 
       - name: Download build assets
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
         with:
           name: build-assets
           path: dist
 
       - name: Get changed files in the .github folder
         id: changed-files
-        uses: ./
-        with:
+        uses: ./        with:
           path: .github
           json: true
           escape_json: false
@@ -616,7 +600,7 @@ jobs:
       contents: read
     steps:
       - name: Checkout into dir1
-        uses: actions/checkout@v4
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
         with:
           repository: ${{ github.event.pull_request.head.repo.full_name }}
           submodules: true
@@ -624,7 +608,7 @@ jobs:
           path: dir1
 
       - name: Download build assets
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
         with:
           name: build-assets
           path: dir1/dist
@@ -633,7 +617,6 @@ jobs:
         id: changed-files
         continue-on-error: true
         uses: ./dir1
-
       - name: Verify failed
         if: steps.changed-files.outcome != 'failure'
         run: |
@@ -655,21 +638,20 @@ jobs:
 
     steps:
       - name: Checkout branch
-        uses: actions/checkout@v4
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
         with:
           ref: ${{ github.event.pull_request.head.sha || github.sha }}
           submodules: recursive
           fetch-depth: ${{ matrix.fetch-depth }}
 
       - name: Download build assets
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
         with:
           name: build-assets
 
       - name: Run changed-files with submodule
         id: changed-files
-        uses: ./
-        with:
+        uses: ./        with:
           base_sha: "85bd869"
           sha: "adde7bb"
           fetch_depth: 60000
@@ -688,8 +670,7 @@ jobs:
 
       - name: Run changed-files excluding submodule
         id: changed-files-exclude-submodule
-        uses: ./
-        with:
+        uses: ./        with:
           base_sha: "85bd869"
           sha: "adde7bb"
           fetch_depth: 60000
@@ -721,21 +702,20 @@ jobs:
 
     steps:
       - name: Checkout branch
-        uses: actions/checkout@v4
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
         with:
           ref: ${{ github.event.pull_request.head.sha || github.sha }}
           submodules: recursive
           fetch-depth: ${{ matrix.fetch-depth }}
 
       - name: Download build assets
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
         with:
           name: build-assets
 
       - name: Run changed-files with files_yaml
         id: changed-files
-        uses: ./
-        with:
+        uses: ./        with:
           files_yaml: |
             test:
               - test/**.txt
@@ -749,8 +729,7 @@ jobs:
 
       - name: Run changed-files with files_yaml_from_source_file
         id: changed-files-from-source-file
-        uses: ./
-        with:
+        uses: ./        with:
           files_yaml_from_source_file: |
             test/changed-files.yml
 
@@ -762,8 +741,7 @@ jobs:
 
       - name: Run changed-files with files_yaml, files_ignore_yaml
         id: changed-files-ignore
-        uses: ./
-        with:
+        uses: ./        with:
           files_yaml: |
             test:
               - test/**.txt
@@ -780,8 +758,7 @@ jobs:
 
       - name: Run changed-files with files_yaml, json and write_output_files
         id: changed-files-json-write-output-files
-        uses: ./
-        with:
+        uses: ./        with:
           files_yaml: |
             test:
               - .github/workflows/test.yml
@@ -816,21 +793,20 @@ jobs:
 
     steps:
       - name: Checkout branch
-        uses: actions/checkout@v4
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
         with:
           ref: ${{ github.event.pull_request.head.sha || github.sha }}
           submodules: recursive
           fetch-depth: ${{ matrix.fetch-depth }}
 
       - name: Download build assets
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
         with:
           name: build-assets
 
       - name: Run changed-files with recover_deleted_files
         id: changed-files-recover-deleted-files
-        uses: ./
-        with:
+        uses: ./        with:
           base_sha: "fcdeb5b3d797752d95f6dbe98552a95c29dad338"
           sha: "432e0c810c60ef1332850a971c5ec39022034b4c"
           recover_deleted_files: true
@@ -860,8 +836,7 @@ jobs:
 
       - name: Run changed-files with recover_deleted_files and files input
         id: changed-files-recover-deleted-files-with-files
-        uses: ./
-        with:
+        uses: ./        with:
           base_sha: "fcdeb5b3d797752d95f6dbe98552a95c29dad338"
           sha: "432e0c810c60ef1332850a971c5ec39022034b4c"
           files: |
@@ -893,8 +868,7 @@ jobs:
 
       - name: Run changed-files with recover_deleted_files and files_yaml input
         id: changed-files-recover-deleted-files-with-files-yaml
-        uses: ./
-        with:
+        uses: ./        with:
           base_sha: "fcdeb5b3d797752d95f6dbe98552a95c29dad338"
           sha: "432e0c810c60ef1332850a971c5ec39022034b4c"
           files_yaml: |
@@ -934,8 +908,7 @@ jobs:
 
       - name: Run changed-files with recover_deleted_files and recover_deleted_files_to_destination
         id: changed-files-recover-deleted-files-to-destination
-        uses: ./
-        with:
+        uses: ./        with:
           base_sha: "fcdeb5b3d797752d95f6dbe98552a95c29dad338"
           sha: "432e0c810c60ef1332850a971c5ec39022034b4c"
           recover_deleted_files: true
@@ -965,8 +938,7 @@ jobs:
 
       - name: Run changed-files with recover_deleted_files for an expected git submodule file
         id: changed-files-recover-deleted-files-within-submodule
-        uses: ./
-        with:
+        uses: ./        with:
           base_sha: "3be651e99d3d4eae395694f6c6f3b9d18457f6c8"
           sha: "d90c240f2ad4ec04d8f0f48e5ac290ad96ebe850"
           recover_deleted_files: true
@@ -1002,7 +974,7 @@ jobs:
       contents: read
     steps:
       - name: Checkout branch
-        uses: actions/checkout@v4
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
         with:
           ref: a52f8621d26d5d9f54b80f74bda2d9eedff94693
           repository: ${{ github.event.pull_request.head.repo.full_name }}
@@ -1010,8 +982,7 @@ jobs:
           fetch-depth: 2
       - name: Run changed-files with dir_names and dir_names_deleted_files_include_only_deleted_dirs with a single file deleted withing the test directory
         id: changed-files-dir-names-deleted-files-include-only-deleted-dirs-single-file
-        uses: ./
-        with:
+        uses: ./        with:
           base_sha: 920856cfdd4b4be17810e34b197596397473adf6
           sha: a52f8621d26d5d9f54b80f74bda2d9eedff94693
           dir_names: true
@@ -1040,7 +1011,7 @@ jobs:
       contents: read
     steps:
       - name: Checkout branch
-        uses: actions/checkout@v4
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
         with:
           ref: ${{ github.event.pull_request.head.sha }}
           repository: ${{ github.event.pull_request.head.repo.full_name }}
@@ -1048,8 +1019,7 @@ jobs:
           fetch-depth: 2
       - name: Run changed-files with dir_names and dir_names_deleted_files_include_only_deleted_dirs with the test directory deleted
         id: changed-files-dir-names-deleted-files-include-only-deleted-dirs-directory
-        uses: ./
-        with:
+        uses: ./        with:
           base_sha: a52f8621d26d5d9f54b80f74bda2d9eedff94693
           sha: cd1e384723e4d1a184568182ac2b27c53ebf017f
           dir_names: true
@@ -1076,8 +1046,7 @@ jobs:
           bash
       - name: Run changed-files with dir_names and dir_names_deleted_files_include_only_deleted_dirs with the test directory deleted returns posix path separator
         id: changed-files-dir-names-deleted-files-include-only-deleted-dirs-directory-posix-path-separator
-        uses: ./
-        with:
+        uses: ./        with:
           base_sha: a52f8621d26d5d9f54b80f74bda2d9eedff94693
           sha: cd1e384723e4d1a184568182ac2b27c53ebf017f
           dir_names: true
@@ -1119,7 +1088,7 @@ jobs:
         
     steps:
       - name: Checkout branch
-        uses: actions/checkout@v4
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
         with:
           ref: ${{ github.event.pull_request.head.sha }}
           repository: ${{ github.event.pull_request.head.repo.full_name }}
@@ -1127,15 +1096,14 @@ jobs:
           fetch-depth: ${{ matrix.fetch-depth }}
   
       - name: Download build assets
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
         with:
           name: build-assets
 
       - name: Run changed-files with since_last_remote_commit
         id: changed-files-since-last-remote-commit
         continue-on-error: true
-        uses: ./
-        with:
+        uses: ./        with:
           since_last_remote_commit: true
 
       - name: Verify succeeded pull_request(closed)
@@ -1172,13 +1140,13 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
         with:
           submodules: true
           repository: ${{ github.event.pull_request.head.repo.full_name }}
           fetch-depth: ${{ matrix.fetch-depth }}
       - name: Download build assets
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
         with:
           name: build-assets
       - name: Dump GitHub context
@@ -1187,16 +1155,14 @@ jobs:
         run: echo "$GITHUB_CONTEXT"
       - name: Run changed-files with defaults
         id: changed-files
-        uses: ./
-      - name: Show output
+        uses: ./      - name: Show output
         run: |
           echo '${{ toJSON(steps.changed-files.outputs) }}'
         shell:
           bash
       - name: Run changed-files with dir name pattern
         id: changed-files-dir-name
-        uses: ./
-        with:
+        uses: ./        with:
           files: .github/workflows
       - name: Show output
         run: |
@@ -1205,8 +1171,7 @@ jobs:
           bash
       - name: Run changed-files with write_output_files
         id: changed-files-write-output-files
-        uses: ./
-        with:
+        uses: ./        with:
           json: true
           write_output_files: true
       - name: Show output
@@ -1217,8 +1182,7 @@ jobs:
           bash
       - name: Run changed-files with include_all_old_new_renamed_files
         id: changed-files-all-old-new-renamed-files
-        uses: ./
-        with:
+        uses: ./        with:
           include_all_old_new_renamed_files: true
       - name: Show output
         run: |
@@ -1240,8 +1204,7 @@ jobs:
           bash
       - name: Run changed-files with quotepath disabled for single path
         id: changed-files-quotepath-specific
-        uses: ./
-        with:
+        uses: ./        with:
           files: test/test-è.txt
           quotepath: "false"
       - name: Show output
@@ -1251,8 +1214,7 @@ jobs:
           bash
       - name: Run changed-files with quotepath disabled
         id: changed-files-quotepath
-        uses: ./
-        with:
+        uses: ./        with:
           quotepath: "false"
       - name: Show output
         run: |
@@ -1261,8 +1223,7 @@ jobs:
           bash
       - name: Run changed-files with dir_names and dir_names_max_depth
         id: changed-files-dir-names-max-depth
-        uses: ./
-        with:
+        uses: ./        with:
           base_sha: ba788ed
           sha: 0a5b7c6
           fetch_depth: 60000
@@ -1290,8 +1251,7 @@ jobs:
           bash
       - name: Run changed-files with dir_names and dir_names_exclude_current_dir
         id: changed-files-dir-names-exclude-root
-        uses: ./
-        with:
+        uses: ./        with:
           base_sha: dddfbd69
           sha: ce8c1983
           fetch_depth: 60000
@@ -1312,8 +1272,7 @@ jobs:
           bash
       - name: Run changed-files with dir_names
         id: changed-files-dir-names
-        uses: ./
-        with:
+        uses: ./        with:
           base_sha: d1c0ee4
           sha: 4d04215
           fetch_depth: 60000
@@ -1332,8 +1291,7 @@ jobs:
           bash
       - name: Run changed-files with dir_names specific
         id: changed-files-dir-names-specific
-        uses: ./
-        with:
+        uses: ./        with:
           base_sha: d1c0ee4
           sha: 4d04215
           fetch_depth: 60000
@@ -1353,8 +1311,7 @@ jobs:
           bash
       - name: Run changed-files with dir_names and dir_names_include_files with specific files
         id: changed-files-dir-names-specific-include-files
-        uses: ./
-        with:
+        uses: ./        with:
           base_sha: d1c0ee4
           sha: 4d04215
           fetch_depth: 60000
@@ -1393,8 +1350,7 @@ jobs:
           bash
       - name: Run changed-files with dir_names for specific files and an unmatched path
         id: changed-files-dir-names-specific-unmatched-path
-        uses: ./
-        with:
+        uses: ./        with:
           base_sha: d1c0ee4
           sha: 4d04215
           fetch_depth: 60000
@@ -1420,8 +1376,7 @@ jobs:
           bash
       - name: Run changed-files with forward slash separator
         id: changed-files-forward-slash
-        uses: ./
-        with:
+        uses: ./        with:
           separator: "/"
       - name: Show output
         run: |
@@ -1430,8 +1385,7 @@ jobs:
           bash
       - name: Run changed-files with newline separator
         id: changed-files-newline
-        uses: ./
-        with:
+        uses: ./        with:
           separator: "\n"
       - name: Show output
         run: |
@@ -1440,8 +1394,7 @@ jobs:
           bash
       - name: Run changed-files with pipe separator
         id: changed-files-pipe
-        uses: ./
-        with:
+        uses: ./        with:
           separator: "|"
       - name: Show output
         run: |
@@ -1450,8 +1403,7 @@ jobs:
           bash
       - name: Run changed-files with json output
         id: changed-files-json
-        uses: ./
-        with:
+        uses: ./        with:
           json: true
       - name: Show output
         run: |
@@ -1461,8 +1413,7 @@ jobs:
           bash
       - name: Run changed-files with json unescaped format
         id: changed-files-json-unescaped
-        uses: ./
-        with:
+        uses: ./        with:
           json: true
           escape_json: false
       - name: Show output
@@ -1473,8 +1424,7 @@ jobs:
           bash
       - name: Run changed-files with comma separator
         id: changed-files-comma
-        uses: ./
-        with:
+        uses: ./        with:
           separator: ","
       - name: List all modified files
         run: |
@@ -1492,8 +1442,7 @@ jobs:
           bash
       - name: Run changed-files with specific files from a source file using a newline separator
         id: changed-files-specific-newline-source-file
-        uses: ./
-        with:
+        uses: ./        with:
           files_from_source_file: |
             test/changed-files-list.txt
           separator: "\n"
@@ -1504,8 +1453,7 @@ jobs:
           bash
       - name: Run changed-files for old new filenames test rename 1
         id: changed-files-all-old-new-renamed-files-1
-        uses: ./
-        with:
+        uses: ./        with:
           base_sha: d1c0ee4
           sha: 4d04215
           fetch_depth: 60000
@@ -1545,8 +1493,7 @@ jobs:
           bash
       - name: Run changed-files for old new filenames test rename 2
         id: changed-files-all-old-new-renamed-files-2
-        uses: ./
-        with:
+        uses: ./        with:
           base_sha: 4d04215
           sha: fe238e6
           fetch_depth: 60000
@@ -1586,8 +1533,7 @@ jobs:
           bash
       - name: Run changed-files for old new filenames test rename 2 output as deleted and added
         id: changed-files-all-old-new-renamed-files-2-output-as-deleted-and-added
-        uses: ./
-        with:
+        uses: ./        with:
           base_sha: 4d04215
           sha: fe238e6
           fetch_depth: 60000
@@ -1642,8 +1588,7 @@ jobs:
           bash
       - name: Run changed-files with specific files
         id: changed-files-specific
-        uses: ./
-        with:
+        uses: ./        with:
           files: |
             .github/workflows/test.yml
             action.yml
@@ -1753,8 +1698,7 @@ jobs:
           bash
       - name: Run changed-files with specific files comma check duplicates
         id: changed-files-specific-duplicate-output
-        uses: ./
-        with:
+        uses: ./        with:
           files: |
             get-changed-paths.sh
             *.sh
@@ -1796,8 +1740,7 @@ jobs:
           bash
       - name: Run changed-files with specific files comma separator
         id: changed-files-specific-comma
-        uses: ./
-        with:
+        uses: ./        with:
           files: |
             .github/workflows/test.yml
             action.yml
@@ -1863,8 +1806,7 @@ jobs:
           bash
       - name: Run changed-files with specific files pipe separator
         id: changed-files-specific-pipe
-        uses: ./
-        with:
+        uses: ./        with:
           files: |
             **/test.yml
             action.yml
@@ -1930,8 +1872,7 @@ jobs:
           bash
       - name: Run changed-files with specific files forward slash separator
         id: changed-files-specific-forward-slash
-        uses: ./
-        with:
+        uses: ./        with:
           files: |
             .github/workflows/test.yml
             action.yml
@@ -1997,8 +1938,7 @@ jobs:
           bash
       - name: Run changed-files with specific files from a source file
         id: changed-files-specific-source-file
-        uses: ./
-        with:
+        uses: ./        with:
           files_from_source_file: |
             test/changed-files-list.txt
             test/changed-files-list.txt
@@ -2115,8 +2055,7 @@ jobs:
           bash
       - name: Run changed-files with specific files from a source file using a comma separator
         id: changed-files-specific-comma-source-file
-        uses: ./
-        with:
+        uses: ./        with:
           files_from_source_file: |
             test/changed-files-list.txt
           separator: ","
@@ -2163,9 +2102,9 @@ jobs:
           bash
       - name: Get branch name
         id: branch-name
-        uses: tj-actions/branch-names@v8
+        uses: tj-actions/branch-names@dde14ac574a8b9b1cedc59a1cf312788af43d8d8 # v8
         if: github.event_name == 'pull_request' && matrix.fetch-depth == 0
-      - uses: nrwl/nx-set-shas@v4
+      - uses: nrwl/nx-set-shas@3e9ad7370203c1e93d109be57f3b72eb0eb511b1 # v4
         id: last_successful_commit
         if: github.event_name == 'pull_request' && github.event.action != 'closed' && matrix.fetch-depth == 0
         with:
@@ -2174,8 +2113,7 @@ jobs:
       - name: Run changed-files with a custom base sha
         if: github.event_name != 'push' && github.event.action != 'closed' && matrix.fetch-depth == 0 && steps.last_successful_commit.outputs.base != steps.last_successful_commit.outputs.head
         id: changed-files-custom-base-sha
-        uses: ./
-        with:
+        uses: ./        with:
           base_sha: ${{ steps.last_successful_commit.outputs.base }}
       - name: Show output
         if: github.event_name == 'pull_request' && github.event.action != 'closed' && matrix.fetch-depth == 0
@@ -2186,8 +2124,7 @@ jobs:
       - name: Run changed-files with custom sha
         id: changed-files-custom-sha
         if: github.event_name == 'pull_request' && github.event.action != 'closed'
-        uses: ./
-        with:
+        uses: ./        with:
           sha: ${{ github.event.pull_request.head.sha }}
       - name: Show output
         if: github.event.action != 'closed'
@@ -2198,8 +2135,7 @@ jobs:
       - name: Run changed-files with the pull request base sha and head sha
         id: changed-files-pull-request-base-sha-head-sha
         if: github.event_name == 'pull_request' && github.event.action != 'closed'
-        uses: ./
-        with:
+        uses: ./        with:
           base_sha: ${{ github.event.pull_request.base.sha }}
           sha: ${{ github.event.pull_request.head.sha }}
       - name: Show output
@@ -2210,8 +2146,7 @@ jobs:
           bash
       - name: Run changed-files with specific files (only-changed)
         id: changed-files-specific-only-changed
-        uses: ./
-        with:
+        uses: ./        with:
           files: |
             .github/**/test.yml
       - name: Verify only_changed files
